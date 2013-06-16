@@ -7,7 +7,7 @@ import java.util.*;
 class Main extends Frame implements ActionListener
 {
 	private Image image;
-	Panel loginbox,dummy1,dummy2,dummy3,dummy4;
+	Panel loginbox;
 	TextField username,password;
 	Button login;
 	Main()
@@ -19,12 +19,7 @@ class Main extends Frame implements ActionListener
 		
 		loginbox = new Panel();
 		loginbox.setLayout(new GridLayout(3,2));
-		
-		dummy1 = new Panel();
-		dummy2 = new Panel();
-		dummy3 = new Panel();
-		dummy4 = new Panel();
-		
+	
 		username = new TextField(16);
 		password = new TextField(16);
 		password.setEchoChar('*');
