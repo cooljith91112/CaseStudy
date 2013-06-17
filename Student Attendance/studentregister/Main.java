@@ -1,89 +1,100 @@
-package studentregister;
-
-import java.awt.*;
+import javax.swing.*;
 import java.awt.event.*;
+import java.awt.*;
 import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
-class Main extends Frame implements ActionListener
+class backImage extends JComponent {
+ 
+Image i;
+ 
+//Creating Constructer
+public backImage(Image i) {
+this.i = i;
+ 
+}
+
+//Overriding the paintComponent method
+@Override
+public void paintComponent(Graphics g) {
+ 
+g.drawImage(i, 0, 0, null);  // Drawing image using drawImage method
+ 
+}
+}
+
+class Main extends JFrame
 {
-	private Image image;
-	Panel loginbox;
-	TextField username,password;
-	Button login;
+	JPanel login_box;
+	JLabel userlabel,passwordlabel;
+	JButton login;
+	JTextField username;
+	JPasswordField password;
+
 	Main()
 	{
-		super("Attendance Register");
+		super("Student Attendance");
+	try{
+		
 		setSize(800,600);
+		setLayout(null);
 		setResizable(false);
-		setLayout(new BorderLayout());
-		
-		loginbox = new Panel();
-		loginbox.setLayout(new GridLayout(3,2));
-	
-		username = new TextField(16);
-		password = new TextField(16);
-		password.setEchoChar('*');
-		login = new Button("Login");
-		
-		loginbox.add(new Label("User Name"));
-		loginbox.add(username);
-		loginbox.add(new Label("Password"));
-		loginbox.add(password);
-		loginbox.add(new Label(""));
-		loginbox.add(login);
 
-		image = Toolkit.getDefaultToolkit().getImage("studentregister/image.jpeg");
+		login_box = new JPanel();
+		login_box.setOpaque(false);
+		username = new JTextField(16);
+		password = new JPasswordField(16);
+		userlabel = new JLabel("User Name");
+		userlabel.setForeground (Color.white);
+		passwordlabel = new JLabel("Password");
+		passwordlabel.setForeground (Color.white);
+		login = new JButton("Login");
 		
-		add(loginbox,BorderLayout.CENTER);
+			BufferedImage bf = ImageIO.read(new File("image.jpeg"));
 		
-		addWindowListener(new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent we)
-			{
-				System.exit(0);
-			}
-			
-			public void windowOpened(WindowEvent we)
-			{
-			//	repaint();
-			}
-		});
-		
-		login.addActionListener(this);
-		
-		
-	}
-	
+		setContentPane(new backImage(bf));
 
-	public Insets getInsets()
-	{
-		return new Insets(300,240,240,240);
-	}
-	 
-	public void paint( Graphics g ) { 
-				g.drawImage(image, 0, 0,getWidth(),getHeight(),this);
-	}
+		login_box.setLayout(new GridLayout(3,2));
 		
-	
-	public void actionPerformed(ActionEvent ae)
-	{
-		if(ae.getSource()==login)
-		{
-			if(username.getText().equals("") || password.getText().equals("") || username.getText().trim().equals(""))
+		login_box.add(userlabel);
+		login_box.add(username);
+		login_box.add(passwordlabel);
+		login_box.add(password);
+		login_box.add(new JLabel(""));
+		login_box.add(login);
+		login_box.setSize(200,75);
+
+		int x =(int)( (getWidth()/2)-(login_box.getWidth()/2));
+		int y =(int)( (getHeight()/2)-(login_box.getHeight()/2));
+		
+		//login_box.setBounds(308,263,185,75);
+		login_box.setBounds(x,y,200,75);
+		//login_box.setLocation(x,y);
+		
+		
+		//add(background);
+		add(login_box);
+
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	catch(IOException io){}
+	}	
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable()
 			{
-				System.out.println("Please enter the username and password correctly");
-			}
-			
-			else
-				System.out.println("User name: "+username.getText()+", Password: "+password.getText());
-		}
+				public void run()
+				{
+					
+					Main mn = new Main();
+					mn.setVisible(true);
+					
+				}
+			});
 	}
-	
-	
-	
-	public static void main(String[] args)
-	{
-		Main hmt= new Main();
-		hmt.setVisible(true);
-	}
+
+
 }
